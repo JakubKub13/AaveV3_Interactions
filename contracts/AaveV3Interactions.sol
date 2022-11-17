@@ -1,0 +1,90 @@
+//SPDX-License-Identifier: MIT
+pragma solidity 0.8.10;
+
+import {IPool} from "@aave/core-v3/contracts/interfaces/IPool.sol";
+import {IPoolAddressesProvider} from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
+import {IERC20} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol";
+
+contract AaveV3Interactions {
+    address payable owner;
+
+    IPoolAddressesProvider public immutable aaveAddressesProvider;
+    IPool public immutable aavePool;
+
+    address private immutable linkAddress = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
+    IERC20 private link;
+
+     modifier onlyOwner() {
+        require(msg.sender == owner, "Only the contract owner can call this function");
+        _;
+    }
+
+    constructor(address _addressProvider) {
+        aaveAddressesProvider = IPoolAddressesProvider(_addressProvider);
+        aavePool = IPool(aaveAddressesProvider.getPool());
+        owner = payable(msg.sender);
+        link = IERC20(linkAddress);
+    }
+
+    function supplyLiquidity(address _tokenAddress, uint256 _amount) external {
+        address asset = _tokenAddress;
+        uint256 amount = _amount;
+        address onBehalfOf = address(this);
+        uint16 referralCode = 0;
+
+        aavePool.supply(asset, amount, onBehalfOf, referralCode);
+    }
+
+    function withdrawlLiquidity(address _tokenAddress, uint256 _amount)
+        external
+        returns (uint256)
+    {
+        address asset = _tokenAddress;
+        uint256 amount = _amount;
+        address to = address(this);
+
+        return aavePool.withdraw(asset, amount, to);
+    }
+
+    function getUserAccountData(address _userAddress)
+        external
+        view
+        returns (
+            uint256 totalCollateralBase,
+            uint256 totalDebtBase,
+            uint256 availableBorrowsBase,
+            uint256 currentLiquidationThreshold,
+            uint256 ltv,
+            uint256 healthFactor
+        )
+    {
+        return aavePool.getUserAccountData(_userAddress);
+    }
+
+    function approveLINK(uint256 _amount, address _poolContractAddress)
+        external
+        returns (bool)
+    {
+        return link.approve(_poolContractAddress, _amount);
+    }
+
+    function allowanceLINK(address _poolContractAddress)
+        external
+        view
+        returns (uint256)
+    {
+        return link.allowance(address(this), _poolContractAddress);
+    }
+
+    function getBalance(address _tokenAddress) external view returns (uint256) {
+        return IERC20(_tokenAddress).balanceOf(address(this));
+    }
+
+    function withdraw(address _tokenAddress) external onlyOwner {
+        IERC20 token = IERC20(_tokenAddress);
+        token.transfer(msg.sender, token.balanceOf(address(this)));
+    }
+
+    receive() external payable {}
+}
+
