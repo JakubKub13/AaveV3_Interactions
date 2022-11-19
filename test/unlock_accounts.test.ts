@@ -1,9 +1,11 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
 import { Contract } from "ethers";
-import { ethers } from "hardhat";
+import { ethers, network } from "hardhat";
+
 
 const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
+const DAI_WHALE = "0xF977814e90dA44bFA03b6295A0616a897441aceC";
 
 describe("Test unlock account", function () {
     let accounts: SignerWithAddress[];
@@ -13,7 +15,12 @@ describe("Test unlock account", function () {
     beforeEach(async () => {
         accounts = await ethers.getSigners();
 
-        w
-    })
+        await network.provider.request({
+            method: "hardhat_impersonateAccount",
+            params: [DAI_WHALE]
+        });
 
-})
+        dai = await ethers.getContractAt("IERC20", DAI);
+        whale = await ethers.getSigner(DAI_WHALE);
+    });
+});
