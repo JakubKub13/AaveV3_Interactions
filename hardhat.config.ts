@@ -8,11 +8,15 @@ const MUMBAI_RPC_URL = process.env.MUMBAI_RPC_URL || ""
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "privatKey"
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || ""
 const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY || ""
+const MAINNET_RPC_URL = process.env.MAINNET_RPC_URL || ""
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
+      forking: {
+        url: MAINNET_RPC_URL
+      },
       chainId: 31337,
       allowUnlimitedContractSize: true
     },
