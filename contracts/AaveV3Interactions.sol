@@ -11,8 +11,8 @@ contract AaveV3Interactions {
     IPoolAddressesProvider public immutable aaveAddressesProvider;
     IPool public immutable aavePool;
 
-    address private immutable linkAddress = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
-    IERC20 private link;
+    address private immutable daiAddress = 0x6B175474E89094C44Da98b954EedeAC495271d0F;
+    IERC20 private dai;
 
      modifier onlyOwner() {
         require(msg.sender == owner, "Only the contract owner can call this function");
@@ -23,7 +23,7 @@ contract AaveV3Interactions {
         aaveAddressesProvider = IPoolAddressesProvider(_addressProvider);
         aavePool = IPool(aaveAddressesProvider.getPool());
         owner = payable(msg.sender);
-        link = IERC20(linkAddress);
+        dai = IERC20(daiAddress);
     }
 
     function supplyLiquidity(address _tokenAddress, uint256 _amount) external {
@@ -61,19 +61,19 @@ contract AaveV3Interactions {
         return aavePool.getUserAccountData(_userAddress);
     }
 
-    function approveLINK(uint256 _amount, address _poolContractAddress)
+    function approveDAI(uint256 _amount, address _poolContractAddress)
         external
         returns (bool)
     {
-        return link.approve(_poolContractAddress, _amount);
+        return dai.approve(_poolContractAddress, _amount);
     }
 
-    function allowanceLINK(address _poolContractAddress)
+    function allowanceDAI(address _poolContractAddress)
         external
         view
         returns (uint256)
     {
-        return link.allowance(address(this), _poolContractAddress);
+        return dai.allowance(address(this), _poolContractAddress);
     }
 
     function getBalance(address _tokenAddress) external view returns (uint256) {
