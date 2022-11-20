@@ -4,8 +4,8 @@ import { Contract } from "ethers";
 import { ethers, network } from "hardhat";
 
 
-const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
-const DAI_WHALE = "0xF977814e90dA44bFA03b6295A0616a897441aceC";
+const DAI = "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1";
+const DAI_WHALE = "0xc66825C5c04b3c2CcD536d626934E16248A63f68";
 
 describe("Test unlock account", function () {
     let accounts: SignerWithAddress[];
