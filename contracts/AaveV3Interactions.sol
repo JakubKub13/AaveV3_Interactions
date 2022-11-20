@@ -11,7 +11,7 @@ contract AaveV3Interactions {
     IPoolAddressesProvider public immutable aaveAddressesProvider;
     IPool public immutable aavePool;
 
-    address private immutable daiAddress = 0x6B175474E89094C44Da98b954EedeAC495271d0F;
+    address private immutable daiAddress = 0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1; //Optimism 
     IERC20 private dai;
 
      modifier onlyOwner() {
