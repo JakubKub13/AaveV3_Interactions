@@ -61,6 +61,11 @@ contract AaveV3Interactions {
         return aavePool.getUserAccountData(_userAddress);
     }
 
+    // Implement portal func to move funds from one chain to another
+    //function mintUnbacked (asset, amount, onBehalfOf, referralCode) external;
+    //function backUnbacked (asset, amount, fee) external
+
+
     function approveDAI(uint256 _amount, address _poolContractAddress)
         external
         returns (bool)
