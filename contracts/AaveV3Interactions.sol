@@ -62,6 +62,7 @@ contract AaveV3Interactions {
     }
 
     // Implement portal func to move funds from one chain to another
+    // Needs to call this 2 functions from approved bridge 
     //function mintUnbacked (asset, amount, onBehalfOf, referralCode) external;
     //function backUnbacked (asset, amount, fee) external
 
