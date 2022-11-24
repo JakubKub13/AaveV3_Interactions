@@ -4,8 +4,8 @@ import { Contract } from "ethers";
 import { ethers, network } from "hardhat";
 
 
-const DAI = "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1";
-const DAI_WHALE = "0xc66825C5c04b3c2CcD536d626934E16248A63f68";
+const DAI = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
+const DAI_WHALE = "0x25E53Fe97360906cb990417cf0292a25DcF06075";
 
 describe("Test unlock account", function () {
     let accounts: SignerWithAddress[];
@@ -26,9 +26,13 @@ describe("Test unlock account", function () {
 
     it("Unlocks account", async () => {
         const amount = 100n * 10n ** 18n // 100 DAI
-        console.log(`DAI balance of whale ${await dai.balanceOf(whale.address)}`);
+        const balanceOfWhaleDAI = await dai.balanceOf(whale.address);
+        const formattedBalanceWhale = ethers.utils.formatEther(balanceOfWhaleDAI);
+        console.log(`DAI balance of whale ${formattedBalanceWhale}`);
         expect(await dai.balanceOf(whale.address)).to.gte(amount);
         await dai.connect(whale).transfer(accounts[0].address, amount);
-        console.log(`DAI balance of account ${await dai.balanceOf(accounts[0].address)}`);
+        const balanceOfAccountDAI = await dai.balanceOf(accounts[0].address);
+        const balanceOfAccountDAIFormatted = ethers.utils.formatEther(balanceOfAccountDAI);
+        console.log(`DAI balance of account ${balanceOfAccountDAIFormatted}`);
     });
 });
