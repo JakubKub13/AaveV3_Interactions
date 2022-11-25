@@ -29,5 +29,11 @@ describe("Test Aave provide and withdraw liquidity", function () {
         await dai.connect(daiWhale).transfer(accounts[0].address, AMOUNT);
     });
 
-    
+    it("Should send dai to first account ", async () => {
+        const balanceOfAccount0 = await dai.balanceOf(accounts[0].address);
+        const balanceOfAcc0Formatted = ethers.utils.formatEther(balanceOfAccount0);
+        expect(balanceOfAcc0Formatted).to.eq("1000.0");
+    })
+
+
 })
