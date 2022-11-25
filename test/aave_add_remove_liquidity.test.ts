@@ -40,7 +40,25 @@ describe("Test Aave provide and withdraw liquidity", function () {
             const aaveV3InteractionsFactory = await ethers.getContractFactory("AaveV3Interactions");
             aaveV3Interactions = await aaveV3InteractionsFactory.deploy(AAVE_POOL_ADDRESSES_PROVIDERV3);
             await aaveV3Interactions.deployed();
-        })
+        });
+
+        it("Should get Aave Pool contract address", async () => {
+            const poolAddr = await aaveV3Interactions.aavePool();
+            expect(poolAddr).to.eq("0x794a61358D6845594F94dc1DB02A252b5b4814aD")
+        });
+
+        it("Should be able to sent dai to AaveV3Interactions contract", async () => {
+            const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT);
+            await sendTx.wait();
+            const balanceAcc0 = await dai.balanceOf(accounts[0].address);
+            const balanceAcc0Formatted = ethers.utils.formatEther(balanceAcc0);
+            const balanceAaveInt = await dai.balanceOf(aaveV3Interactions.address);
+            const balanceAaveIntFormatted = ethers.utils.formatEther(balanceAaveInt);
+            expect(balanceAcc0Formatted).to.eq("0.0");
+            expect(balanceAaveIntFormatted).to.eq("1000.0");
+            console.log(balanceAcc0Formatted)
+            console.log(balanceAaveIntFormatted)
+        });
     })
 
 
