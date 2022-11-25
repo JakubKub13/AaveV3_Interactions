@@ -33,6 +33,14 @@ describe("Test Aave provide and withdraw liquidity", function () {
         const balanceOfAccount0 = await dai.balanceOf(accounts[0].address);
         const balanceOfAcc0Formatted = ethers.utils.formatEther(balanceOfAccount0);
         expect(balanceOfAcc0Formatted).to.eq("1000.0");
+    });
+
+    describe("Depositing DAI to Aave", function() {
+        beforeEach(async () => {
+            const aaveV3InteractionsFactory = await ethers.getContractFactory("AaveV3Interactions");
+            aaveV3Interactions = await aaveV3InteractionsFactory.deploy(AAVE_POOL_ADDRESSES_PROVIDERV3);
+            await aaveV3Interactions.deployed();
+        })
     })
 
 
