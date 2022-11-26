@@ -65,7 +65,13 @@ contract AaveV3Interactions {
     // Needs to call this 2 functions from approved bridge 
     //function mintUnbacked (asset, amount, onBehalfOf, referralCode) external;
     //function backUnbacked (asset, amount, fee) external
+    function approveDAIForPool(address _pool, uint256 _amount) external {
+        dai.approve(_pool, _amount);
+    }
 
+    function checksAllowanceDAI(address _pool) external view returns (uint256) {
+        return dai.allowance(address(this), _pool);
+    }
 
     function getBalance(address _tokenAddress) external view returns (uint256) {
         return IERC20(_tokenAddress).balanceOf(address(this));

@@ -68,9 +68,11 @@ describe("Test Aave provide and withdraw liquidity", function () {
             const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT_SUPPLY);
             await sendTx.wait();
             const pool = await aaveV3Interactions.aavePool();
-            const approveTx = await dai.connect(accounts[0]).approve(pool, AMOUNT_APPROVE);
+            const approveTx = await dai.connect(accounts[0]).approve(aaveV3Interactions.address, AMOUNT_APPROVE);
             approveTx.wait();
-            const allowance = await dai.connect(accounts[0]).allowance(accounts[0].address, pool)
+            const approveTx1 = await dai.connect(accounts[0]).approve(await aaveV3Interactions.aavePool(), AMOUNT_APPROVE);
+            approveTx1.wait();
+            const allowance = await dai.connect(accounts[0]).allowance(accounts[0].address, aaveV3Interactions.address)
             const allowanceFormatted = ethers.utils.formatEther(allowance);
             expect(allowanceFormatted).to.eq("2000.0");
             const supplyTx = await aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_SUPPLY);
