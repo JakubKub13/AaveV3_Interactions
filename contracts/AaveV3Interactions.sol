@@ -67,22 +67,6 @@ contract AaveV3Interactions {
     //function backUnbacked (asset, amount, fee) external
 
 
-    function approveDAI(uint256 _amount, address _poolContractAddress)
-        external
-        returns (bool)
-    {
-        dai.approve(_poolContractAddress, _amount);
-        return true;
-    }
-
-    function allowanceDAI(address _poolContractAddress)
-        external
-        view
-        returns (uint256)
-    {
-        return dai.allowance(address(this), _poolContractAddress);
-    }
-
     function getBalance(address _tokenAddress) external view returns (uint256) {
         return IERC20(_tokenAddress).balanceOf(address(this));
     }

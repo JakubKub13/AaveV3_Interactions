@@ -66,9 +66,10 @@ describe("Test Aave provide and withdraw liquidity", function () {
         it("Should be able to deposit into AaveV3 pool and receive aDAI", async () => {
             const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT);
             await sendTx.wait();
-            const approveTx = await aaveV3Interactions.connect(accounts[0]).approveDAI(AMOUNT, await aaveV3Interactions.aavePool());
+            const pool = await aaveV3Interactions.aavePool();
+            const approveTx = await dai.connect(accounts[0]).approve(pool, AMOUNT);
             approveTx.wait();
-            const allowance = await aaveV3Interactions.connect(accounts[0]).allowanceDAI(await aaveV3Interactions.aavePool());
+            const allowance = await dai.connect(accounts[0]).allowance(accounts[0].address, pool)
             const allowanceFormatted = ethers.utils.formatEther(allowance);
             console.log(allowanceFormatted);
         });
