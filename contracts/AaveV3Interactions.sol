@@ -71,7 +71,8 @@ contract AaveV3Interactions {
         external
         returns (bool)
     {
-        return dai.approve(_poolContractAddress, _amount);
+        dai.approve(_poolContractAddress, _amount);
+        return true;
     }
 
     function allowanceDAI(address _poolContractAddress)
