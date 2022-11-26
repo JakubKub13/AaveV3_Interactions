@@ -8,7 +8,8 @@ const AAVE_POOL_ADDRESSES_PROVIDERV3 = "0xa97684ead0e402dC232d5A977953DF7ECBaB3C
 const DAI = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063";
 const aDAI = "0x27F8D03b3a2196956ED754baDc28D73be8830A6e";
 const DAI_WHALE = "0x075e72a5eDf65F0A5f44699c7654C1a76941Ddc8";
-const AMOUNT = 1000n * 10n ** 18n // 1000 DAI
+const AMOUNT_APPROVE = 2000n * 10n ** 18n // 2000 DAI
+const AMOUNT_SUPPLY = 1000n * 10n ** 18n // 2000 DAI
 
 describe("Test Aave provide and withdraw liquidity", function () {
     let accounts: SignerWithAddress[];
@@ -29,7 +30,7 @@ describe("Test Aave provide and withdraw liquidity", function () {
         aDai = await ethers.getContractAt("IERC20", aDAI)
         daiWhale = await ethers.getSigner(DAI_WHALE);
 
-        await dai.connect(daiWhale).transfer(accounts[0].address, AMOUNT);
+        await dai.connect(daiWhale).transfer(accounts[0].address, AMOUNT_SUPPLY);
     });
 
     it("Should send dai to first account ", async () => {
@@ -51,7 +52,7 @@ describe("Test Aave provide and withdraw liquidity", function () {
         });
 
         it("Should be able to sent dai to AaveV3Interactions contract", async () => {
-            const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT);
+            const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT_SUPPLY);
             await sendTx.wait();
             const balanceAcc0 = await dai.balanceOf(accounts[0].address);
             const balanceAcc0Formatted = ethers.utils.formatEther(balanceAcc0);
@@ -64,14 +65,19 @@ describe("Test Aave provide and withdraw liquidity", function () {
         });
 
         it("Should be able to deposit into AaveV3 pool and receive aDAI", async () => {
-            const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT);
+            const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT_SUPPLY);
             await sendTx.wait();
             const pool = await aaveV3Interactions.aavePool();
-            const approveTx = await dai.connect(accounts[0]).approve(pool, AMOUNT);
+            const approveTx = await dai.connect(accounts[0]).approve(pool, AMOUNT_APPROVE);
             approveTx.wait();
             const allowance = await dai.connect(accounts[0]).allowance(accounts[0].address, pool)
             const allowanceFormatted = ethers.utils.formatEther(allowance);
-            console.log(allowanceFormatted);
+            expect(allowanceFormatted).to.eq("2000.0");
+            const supplyTx = await aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_SUPPLY);
+            await supplyTx.wait();
+            const balanceADai = await aDai.balanceOf(accounts[0].address);
+            const balanceADaiFormated = ethers.utils.formatEther(balanceADai);
+            console.log(balanceADaiFormated);
         });
     });
 });
