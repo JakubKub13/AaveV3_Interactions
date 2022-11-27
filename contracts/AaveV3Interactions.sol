@@ -14,6 +14,9 @@ contract AaveV3Interactions {
     address private immutable daiAddress = 0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1; //Optimism 
     IERC20 private dai;
 
+    uint256 private constant MAX_INT =
+        115792089237316195423570985008687907853269984665640564039457584007913129639935;
+
      modifier onlyOwner() {
         require(msg.sender == owner, "Only the contract owner can call this function");
         _;
@@ -31,6 +34,7 @@ contract AaveV3Interactions {
         uint256 amount = _amount;
         address onBehalfOf = address(this);
         uint16 referralCode = 0;
+        IERC20(_tokenAddress).approve(address(aavePool), MAX_INT);
 
         aavePool.supply(asset, amount, onBehalfOf, referralCode);
     }
@@ -65,10 +69,7 @@ contract AaveV3Interactions {
     // Needs to call this 2 functions from approved bridge 
     //function mintUnbacked (asset, amount, onBehalfOf, referralCode) external;
     //function backUnbacked (asset, amount, fee) external
-    function approveDAIForPool(address _pool, uint256 _amount) external {
-        dai.approve(_pool, _amount);
-    }
-
+    
     function checksAllowanceDAI(address _pool) external view returns (uint256) {
         return dai.allowance(address(this), _pool);
     }
