@@ -71,6 +71,7 @@ describe("Test Aave provide and withdraw liquidity", function () {
             const balanceOfDaiInContract = await dai.balanceOf(aaveV3Interactions.address);
             const balanceOfDaiInContractFormatted = ethers.utils.formatEther(balanceOfDaiInContract);
             expect(balanceOfDaiInContractFormatted).to.eq("1000.0");
+            await expect(aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_SUPPLY)).to.be.ok;
         });
     });
 });
