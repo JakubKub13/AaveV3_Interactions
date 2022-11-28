@@ -39,7 +39,7 @@ contract AaveV3Interactions {
         aavePool.supply(asset, amount, onBehalfOf, referralCode);
     }
 
-    function withdrawlLiquidity(address _tokenAddress, uint256 _amount)
+    function withdrawLiquidity(address _tokenAddress, uint256 _amount)
         external
         returns (uint256)
     {

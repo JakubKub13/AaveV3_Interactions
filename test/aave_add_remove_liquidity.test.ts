@@ -78,7 +78,6 @@ describe("Test Aave provide and withdraw liquidity", function () {
         it("Should be able to withdraw Liquidity", async () => {
             const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT_SUPPLY);
             await sendTx.wait();
-            const pool = await aaveV3Interactions.aavePool();
             const balanceOfDaiInContract = await dai.balanceOf(aaveV3Interactions.address);
             const balanceOfDaiInContractFormatted = ethers.utils.formatEther(balanceOfDaiInContract);
             expect(balanceOfDaiInContractFormatted).to.eq("1000.0");
@@ -88,7 +87,7 @@ describe("Test Aave provide and withdraw liquidity", function () {
             expect(ethers.utils.formatEther(balanceContractBefW)).to.eq("0.0")
             await network.provider.send("evm_increaseTime", [360]);
             await network.provider.send("evm_mine");
-            const withdrawTx = await aaveV3Interactions.connect(accounts[0]).withdrawlLiquidity(dai.address, AMOUNT_SUPPLY);
+            const withdrawTx = await aaveV3Interactions.connect(accounts[0]).withdrawLiquidity(dai.address, AMOUNT_SUPPLY);
             await withdrawTx.wait();
             const balanceConDaiAfW = await dai.balanceOf(aaveV3Interactions.address);
             expect(ethers.utils.formatEther(balanceConDaiAfW)).to.eq("1000.0");
@@ -97,7 +96,6 @@ describe("Test Aave provide and withdraw liquidity", function () {
         it("Should be accumulate interest after deposit", async () => {
             const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT_SUPPLY);
             await sendTx.wait();
-            const pool = await aaveV3Interactions.aavePool();
             const balanceOfDaiInContract = await dai.balanceOf(aaveV3Interactions.address);
             const balanceOfDaiInContractFormatted = ethers.utils.formatEther(balanceOfDaiInContract);
             expect(balanceOfDaiInContractFormatted).to.eq("1000.0");
@@ -118,10 +116,37 @@ describe("Test Aave provide and withdraw liquidity", function () {
             expect(Number(aDaiBalC1Formatted)).to.be.lessThan(Number(aDaiBalC2Formatted));
         });
 
-        it("Whole test", async () => {
+        it("Full test", async () => {
             const startingBalanceOfDaiOfAcc1 = await dai.balanceOf(accounts[0].address);
             const startingBalanceOfDaiOfAcc1F = ethers.utils.formatEther(startingBalanceOfDaiOfAcc1);
             expect(startingBalanceOfDaiOfAcc1F).to.eq("1000.0");
+            const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT_SUPPLY);
+            await sendTx.wait();
+            const balanceOfDaiInContract = await dai.balanceOf(aaveV3Interactions.address);
+            const balanceOfDaiInContractFormatted = ethers.utils.formatEther(balanceOfDaiInContract);
+            expect(balanceOfDaiInContractFormatted).to.eq("1000.0");
+            const addLiqTx = await aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_SUPPLY);
+            await addLiqTx.wait();
+            const balanceOfADaiInContractAfterSupply = await aDai.balanceOf(aaveV3Interactions.address);
+            const balanceOfADaiInContractAfterSupplyF = ethers.utils.formatEther(balanceOfADaiInContractAfterSupply);
+            expect(balanceOfADaiInContractAfterSupplyF).to.eq("1000.0");
+            //Move time to accumulate interest
+            await network.provider.send("evm_increaseTime", [3600]);
+            await network.provider.send("evm_mine");
+            const balanceOfADaiInContractAfterTime = await aDai.balanceOf(aaveV3Interactions.address);
+            const balanceOfADaiInContractAfterTimeF = ethers.utils.formatEther(balanceOfADaiInContractAfterTime);
+            expect(Number(balanceOfADaiInContractAfterSupplyF)).to.be.lessThan(Number(balanceOfADaiInContractAfterTimeF));
+            // Withdraw Liquidity from AavePool with interest accumulated
+            const withdrawTx = await aaveV3Interactions.connect(accounts[0]).withdrawLiquidity(dai.address, balanceOfADaiInContractAfterTime);
+            await withdrawTx.wait();
+            const balanceOfDaiInContractAfterWithdraw = await dai.balanceOf(aaveV3Interactions.address);
+            const balanceOfDaiInContractAfterWithdrawF = ethers.utils.formatEther(balanceOfDaiInContractAfterWithdraw);
+            expect(Number(balanceOfDaiInContractAfterWithdrawF)).to.be.greaterThan(Number(balanceOfDaiInContractFormatted))
+            
+
+
+            
+
         })
     });
 });
