@@ -1,3 +1,4 @@
+import { ChainId, Token, TokenAmount, Pair, Trade, TradeType, Route } from '@uniswap/sdk'
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
 import { Contract } from "ethers";
@@ -71,7 +72,11 @@ describe("Test Aave provide and withdraw liquidity", function () {
             const balanceOfDaiInContract = await dai.balanceOf(aaveV3Interactions.address);
             const balanceOfDaiInContractFormatted = ethers.utils.formatEther(balanceOfDaiInContract);
             expect(balanceOfDaiInContractFormatted).to.eq("1000.0");
-            await expect(aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_SUPPLY)).to.be.ok;
+            //await expect(aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_SUPPLY)).to.be.ok;
+            const supplyTx = await aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_SUPPLY);
+            await supplyTx.wait();
+            const balanceOfDaiInContractAf =  await dai.balanceOf(aaveV3Interactions.address);
+            console.log(ethers.utils.formatEther(balanceOfDaiInContractAf));
         });
 
         it("Should be able to withdraw Liquidity", async () => {
@@ -81,11 +86,17 @@ describe("Test Aave provide and withdraw liquidity", function () {
             const balanceOfDaiInContract = await dai.balanceOf(aaveV3Interactions.address);
             const balanceOfDaiInContractFormatted = ethers.utils.formatEther(balanceOfDaiInContract);
             expect(balanceOfDaiInContractFormatted).to.eq("1000.0");
-            const addLiqTx = await aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_APPROVE);
+            const addLiqTx = await aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_SUPPLY);
             await addLiqTx.wait();
             await network.provider.send("evm_increaseTime", [360]);
             await network.provider.send("evm_mine");
-            
+            const withdrawTx = await aaveV3Interactions.connect(accounts[0]).withdrawlLiquidity(dai.address, AMOUNT_SUPPLY);
+            await withdrawTx.wait();
+            const balanceAcc1Dai = await dai.balanceOf(accounts[0].address);
+            const balanceConDai = await dai.balanceOf(aaveV3Interactions.address);
+            console.log(ethers.utils.formatEther(balanceAcc1Dai));
+            console.log(ethers.utils.formatEther(balanceConDai));
+
         })
     });
 });
