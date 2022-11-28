@@ -141,12 +141,14 @@ describe("Test Aave provide and withdraw liquidity", function () {
             await withdrawTx.wait();
             const balanceOfDaiInContractAfterWithdraw = await dai.balanceOf(aaveV3Interactions.address);
             const balanceOfDaiInContractAfterWithdrawF = ethers.utils.formatEther(balanceOfDaiInContractAfterWithdraw);
-            expect(Number(balanceOfDaiInContractAfterWithdrawF)).to.be.greaterThan(Number(balanceOfDaiInContractFormatted))
-            
-
-
-            
-
-        })
+            expect(Number(balanceOfDaiInContractAfterWithdrawF)).to.be.greaterThan(Number(balanceOfDaiInContractFormatted));
+            const withdrawFromContractTx = await aaveV3Interactions.connect(accounts[0]).withdraw(dai.address);
+            await withdrawFromContractTx.wait();
+            const endingBalanceOfDaiOfAcc1 = await dai.balanceOf(accounts[0].address);
+            const endingBalanceOfDaiOfAcc1F = ethers.utils.formatEther(endingBalanceOfDaiOfAcc1);
+            console.log(`Account 1 started with balance of: ${startingBalanceOfDaiOfAcc1F} DAI`);
+            console.log(`After supply liquidity and withdraw from Aave V3 pool balance of account 1 is: ${endingBalanceOfDaiOfAcc1F} DAI`);
+            expect(Number(endingBalanceOfDaiOfAcc1F)).to.be.greaterThan(Number(startingBalanceOfDaiOfAcc1F));
+        });
     });
 });
