@@ -73,5 +73,19 @@ describe("Test Aave provide and withdraw liquidity", function () {
             expect(balanceOfDaiInContractFormatted).to.eq("1000.0");
             await expect(aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_SUPPLY)).to.be.ok;
         });
+
+        it("Should be able to withdraw Liquidity", async () => {
+            const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT_SUPPLY);
+            await sendTx.wait();
+            const pool = await aaveV3Interactions.aavePool();
+            const balanceOfDaiInContract = await dai.balanceOf(aaveV3Interactions.address);
+            const balanceOfDaiInContractFormatted = ethers.utils.formatEther(balanceOfDaiInContract);
+            expect(balanceOfDaiInContractFormatted).to.eq("1000.0");
+            const addLiqTx = await aaveV3Interactions.connect(accounts[0]).supplyLiquidity(dai.address, AMOUNT_APPROVE);
+            await addLiqTx.wait();
+            await network.provider.send("evm_increaseTime", [360]);
+            await network.provider.send("evm_mine");
+            
+        })
     });
 });
