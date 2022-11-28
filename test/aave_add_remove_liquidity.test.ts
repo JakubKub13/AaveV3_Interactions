@@ -117,5 +117,11 @@ describe("Test Aave provide and withdraw liquidity", function () {
             console.log(`ADai balance of contract after supply later is: ${ethers.utils.formatEther(aDaiBalContr2)}`);
             expect(Number(aDaiBalC1Formatted)).to.be.lessThan(Number(aDaiBalC2Formatted));
         });
+
+        it("Whole test", async () => {
+            const startingBalanceOfDaiOfAcc1 = await dai.balanceOf(accounts[0].address);
+            const startingBalanceOfDaiOfAcc1F = ethers.utils.formatEther(startingBalanceOfDaiOfAcc1);
+            expect(startingBalanceOfDaiOfAcc1F).to.eq("1000.0");
+        })
     });
 });
