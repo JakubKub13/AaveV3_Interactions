@@ -16,6 +16,7 @@ async function main() {
 
     const chainId = network.config.chainId;
     const DaiAddr: string = networkConfig[chainId]["DAI"];
-    const AaveV3IntAddr: string = networkConfig[chainId][""]
-    const BridgeAddr: string = networkConfig[chainId][""];
+    const aDaiAddr: string = networkConfig[chainId]["aDAI"]
+    const AaveV3IntAddr: string = networkConfig[chainId]["aaveV3Interactions"]
+    const BridgeAddr: string = networkConfig[chainId]["cBridge"];
 }
