@@ -23,7 +23,7 @@ export const networkConfig: networkConfigInfo = {
         aaveV3Interactions: "",
         DAI: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
         aDAI: "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
-        cBridge: "",
+        cBridge: "0x1619DE6B6B20eD217a58d00f37B9d47C7663feca",
     },
 
     10: {
@@ -31,7 +31,7 @@ export const networkConfig: networkConfigInfo = {
         aaveV3Interactions: "",
         DAI: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
         aDAI: "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
-        cBridge: "",
+        cBridge: "0x9D39Fc627A6d9d9F8C831c16995b209548cc3401",
     },
 
     250: {
