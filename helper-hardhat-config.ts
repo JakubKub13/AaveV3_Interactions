@@ -41,6 +41,14 @@ export const networkConfig: networkConfigInfo = {
         aDAI: "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
         cBridge: "0x374B8a9f3eC5eB2D97ECA84Ea27aCa45aa1C57EF",
     },
+
+    137: {
+        name: "polygon",
+        aaveV3Interactions: "",
+        DAI: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+        aDAI: "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
+        cBridge: "0x88DCDC47D2f83a99CF0000FDF667A468bB958a78"
+    }
 }
 
 export const developmentChains = ["hardhat", "localhost"]
