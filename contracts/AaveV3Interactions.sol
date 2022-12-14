@@ -4,12 +4,15 @@ pragma solidity 0.8.10;
 import {IPool} from "@aave/core-v3/contracts/interfaces/IPool.sol";
 import {IPoolAddressesProvider} from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
 import {IERC20} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol";
+import {IcBridge} from "./interfaces/IcBridge.sol";
 
 contract AaveV3Interactions {
     address payable owner;
+    uint256 public tokenContractPool;
 
     IPoolAddressesProvider public immutable aaveAddressesProvider;
     IPool public immutable aavePool;
+    IcBridge public immutable cBridge;
 
     address private immutable daiAddress = 0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1; //Optimism 
     IERC20 private dai;
@@ -22,9 +25,10 @@ contract AaveV3Interactions {
         _;
     }
 
-    constructor(address _addressProvider) {
+    constructor(address _addressProvider, address _cBridge) {
         aaveAddressesProvider = IPoolAddressesProvider(_addressProvider);
         aavePool = IPool(aaveAddressesProvider.getPool());
+        cBridge = IcBridge(_cBridge);
         owner = payable(msg.sender);
         dai = IERC20(daiAddress);
     }
@@ -83,6 +87,18 @@ contract AaveV3Interactions {
         token.transfer(msg.sender, token.balanceOf(address(this)));
     }
 
+    // function sendTokenIN(address _token) external {
+    //     require(_token == daiAddress, "You can only deposit DAI");
+    // }
+
     receive() external payable {}
+
+
+    function bridgeFunds(address _receiver, address _token, uint256 _amount, uint64 _dstChainId, uint64 _nonce, uint32 _maxSlippige) external {
+        require(_token == daiAddress, "Can send only dai token for test purposes");
+
+
+        cBridge.send(_receiver, _token, _amount, _dstChainId, _nonce, _maxSlippige);
+    }
 }
 

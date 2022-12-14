@@ -18,11 +18,11 @@ export const networkConfig: networkConfigInfo = {
         cBridge: "",
     },
 
-    42161: {
-        name: "arbitrumOne",
+    80001: {
+        name: "mumbai",
         aaveV3Interactions: "",
-        DAI: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
-        aDAI: "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
+        DAI: "0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F",
+        aDAI: "0xDD4f3Ee61466C4158D394d57f3D4C397E91fBc51",
         cBridge: "0x1619DE6B6B20eD217a58d00f37B9d47C7663feca",
     },
 
