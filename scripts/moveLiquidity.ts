@@ -1,4 +1,4 @@
-import { Contract, ethers } from "ethers";
+import { Contract, ethers, Signer } from "ethers";
 import { network } from "hardhat";
 import * as dotenv from "dotenv";
 import { AaveV3Interactions } from "../typechain-types";
@@ -19,4 +19,7 @@ async function main() {
     const aDaiAddr: string = networkConfig[chainId]["aDAI"]
     const AaveV3IntAddr: string = networkConfig[chainId]["aaveV3Interactions"]
     const BridgeAddr: string = networkConfig[chainId]["cBridge"];
+
+    let account: ethers.Wallet = new ethers.Wallet(privateKey1, provider);
+    
 }
