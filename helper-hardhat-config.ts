@@ -34,12 +34,12 @@ export const networkConfig: networkConfigInfo = {
         cBridge: "0x9D39Fc627A6d9d9F8C831c16995b209548cc3401", // find this address on Goerli
     },
 
-    97: {
-        name: "BSCTestnet",
+    4002: {
+        name: "FantomTestnet",
         aaveV3Interactions: "",
-        DAI: "0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E",
-        aDAI: "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
-        cBridge: "0x374B8a9f3eC5eB2D97ECA84Ea27aCa45aa1C57EF",
+        DAI: "0xEC5dCb5Dbf4B114C9d0F65BcCAb49EC54F6A0867",
+        aDAI: "0xfb08e04E9c7AfFE693290F739d11D5C3Dd2e19B5",
+        cBridge: "0x374B8a9f3eC5eB2D97ECA84Ea27aCa45aa1C57EF", //  find this address on Fantom testnet
     },
 
 }
