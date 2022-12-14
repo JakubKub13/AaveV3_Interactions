@@ -29,13 +29,13 @@ export const networkConfig: networkConfigInfo = {
     5: {
         name: "goerli",
         aaveV3Interactions: "",
-        DAI: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
-        aDAI: "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
-        cBridge: "0x9D39Fc627A6d9d9F8C831c16995b209548cc3401",
+        DAI: "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844",
+        aDAI: "0x310839bE20Fc6a8A89f33A59C7D5fC651365068f",
+        cBridge: "0x9D39Fc627A6d9d9F8C831c16995b209548cc3401", // find this address on Goerli
     },
 
-    43113: {
-        name: "avalancheFuji",
+    97: {
+        name: "BSCTestnet",
         aaveV3Interactions: "",
         DAI: "0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E",
         aDAI: "0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
