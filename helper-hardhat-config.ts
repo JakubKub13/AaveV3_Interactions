@@ -37,7 +37,7 @@ export const networkConfig: networkConfigInfo = {
     4002: {
         name: "FantomTestnet",
         aaveV3Interactions: "",
-        DAI: "0xEC5dCb5Dbf4B114C9d0F65BcCAb49EC54F6A0867",
+        DAI: "0xAD97CC0EB84302Cd78823cAC2b09c75822c0acb7",
         aDAI: "0xfb08e04E9c7AfFE693290F739d11D5C3Dd2e19B5",
         cBridge: "0x374B8a9f3eC5eB2D97ECA84Ea27aCa45aa1C57EF", //  find this address on Fantom testnet
     },
