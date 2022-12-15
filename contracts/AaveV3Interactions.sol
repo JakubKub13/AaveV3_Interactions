@@ -81,11 +81,12 @@ contract AaveV3Interactions {
         return IERC20(_tokenAddress).balanceOf(address(this));
     }
 
-    function bridgeFunds(address _receiver, address _token, uint64 _dstChainId, uint64 _nonce, uint32 _maxSlippige) external {
+    function bridgeFunds(address _receiver, address _token, uint64 _dstChainId) external {
         require(_token == daiAddress, "Can send only dai token for test purposes");
         uint256 _amount = getBalance(_token);
-
-
+        uint64 _nonce = 1;
+        uint32 _maxSlippige = 1;
+        
         cBridge.send(_receiver, _token, _amount, _dstChainId, _nonce, _maxSlippige);
     }
 
