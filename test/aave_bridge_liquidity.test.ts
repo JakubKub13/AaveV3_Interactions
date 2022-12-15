@@ -26,11 +26,19 @@ describe("Bridging liquidity from Contract on source chain to contract on destin
             params: [USDC_WHALE]
         });
 
-        usdc = await ethers.getContractAt("IERC20", DAI);
-        aUsdc = await ethers.getContractAt("IERC20", aDAI)
-        usdcWhale = await ethers.getSigner(DAI_WHALE);
+        usdc = await ethers.getContractAt("IERC20", USDC);
+        aUsdc = await ethers.getContractAt("IERC20", aUSDC)
+        usdcWhale = await ethers.getSigner(USDC_WHALE);
 
         await usdc.connect(usdcWhale).transfer(accounts[0].address, AMOUNT_SUPPLY);
+
+        const aaveV3InteractionsFactory = await ethers.getContractFactory("AaveV3Interactions");
+        aaveV3Interactions = await aaveV3InteractionsFactory.deploy(AAVE_POOL_ADDRESSES_PROVIDERV3, CBridge_ADDRESS);
+        await aaveV3Interactions.deployed();
     });
+
+    it("Contract should have been funded with usdc", async () => {
+
+    })
 
 })
