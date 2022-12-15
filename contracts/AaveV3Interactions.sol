@@ -101,3 +101,9 @@ contract AaveV3Interactions {
     receive() external payable {}    
 }
 
+
+// what to refactor 
+// user will choose token used in contructor
+// add getTokenAddr => see what token is being used
+
+
