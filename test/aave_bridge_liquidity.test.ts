@@ -13,9 +13,9 @@ const AMOUNT_SUPPLY = 1000n * 10n ** 18n // 1000 DAI
 
 describe("Bridging liquidity from Contract on source chain to contract on destination chain", () => {
     let accounts: SignerWithAddress[];
-    let dai: Contract;
-    let aDai: Contract;
-    let daiWhale: SignerWithAddress;
+    let usdc: Contract;
+    let aUsdc: Contract;
+    let usdcWhale: SignerWithAddress;
     let aaveV3Interactions: AaveV3Interactions;
 
     beforeEach(async () => {
@@ -23,14 +23,14 @@ describe("Bridging liquidity from Contract on source chain to contract on destin
 
         await network.provider.request({
             method: "hardhat_impersonateAccount",
-            params: [DAI_WHALE]
+            params: [USDC_WHALE]
         });
 
-        dai = await ethers.getContractAt("IERC20", DAI);
-        aDai = await ethers.getContractAt("IERC20", aDAI)
-        daiWhale = await ethers.getSigner(DAI_WHALE);
+        usdc = await ethers.getContractAt("IERC20", DAI);
+        aUsdc = await ethers.getContractAt("IERC20", aDAI)
+        usdcWhale = await ethers.getSigner(DAI_WHALE);
 
-        await dai.connect(daiWhale).transfer(accounts[0].address, AMOUNT_SUPPLY);
+        await usdc.connect(usdcWhale).transfer(accounts[0].address, AMOUNT_SUPPLY);
     });
 
 })
