@@ -44,6 +44,7 @@ contract AaveV3Interactions {
 
     function withdrawLiquidity(address _tokenAddress, uint256 _amount)
         external
+        onlyOwner
         returns (uint256)
     {
         address asset = _tokenAddress;
@@ -86,7 +87,7 @@ contract AaveV3Interactions {
         uint256 _amount = getBalance(_token);
         uint64 _nonce = 1;
         uint32 _maxSlippige = 1;
-        
+
         cBridge.send(_receiver, _token, _amount, _dstChainId, _nonce, _maxSlippige);
     }
 
