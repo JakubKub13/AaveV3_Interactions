@@ -8,7 +8,6 @@ import {IcBridge} from "./interfaces/IcBridge.sol";
 
 contract AaveV3Interactions {
     address payable owner;
-    uint256 public tokenContractPool;
 
     IPoolAddressesProvider public immutable aaveAddressesProvider;
     IPool public immutable aavePool;
@@ -78,8 +77,16 @@ contract AaveV3Interactions {
         return dai.allowance(address(this), _pool);
     }
 
-    function getBalance(address _tokenAddress) external view returns (uint256) {
+    function getBalance(address _tokenAddress) public view returns (uint256) {
         return IERC20(_tokenAddress).balanceOf(address(this));
+    }
+
+    function bridgeFunds(address _receiver, address _token, uint64 _dstChainId, uint64 _nonce, uint32 _maxSlippige) external {
+        require(_token == daiAddress, "Can send only dai token for test purposes");
+        uint256 _amount = getBalance(_token);
+
+
+        cBridge.send(_receiver, _token, _amount, _dstChainId, _nonce, _maxSlippige);
     }
 
     function withdraw(address _tokenAddress) external onlyOwner {
@@ -94,11 +101,6 @@ contract AaveV3Interactions {
     receive() external payable {}
 
 
-    function bridgeFunds(address _receiver, address _token, uint256 _amount, uint64 _dstChainId, uint64 _nonce, uint32 _maxSlippige) external {
-        require(_token == daiAddress, "Can send only dai token for test purposes");
-
-
-        cBridge.send(_receiver, _token, _amount, _dstChainId, _nonce, _maxSlippige);
-    }
+    
 }
 
