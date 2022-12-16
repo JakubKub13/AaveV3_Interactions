@@ -74,7 +74,7 @@ contract AaveV3Interactions {
         return aavePool.getUserAccountData(_userAddress);
     }
     
-    function checksAllowanceDAI(address _pool) external view returns (uint256) {
+    function checksAllowanceToken(address _pool) external view returns (uint256) {
         return token.allowance(address(this), _pool);
     }
 
