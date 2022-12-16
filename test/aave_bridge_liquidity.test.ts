@@ -56,6 +56,10 @@ describe("Bridging liquidity from Contract on source chain to contract on destin
         // Try to emit even after successful bridging 
         it("Should bridge funds to another chain", async () => {
             await expect(aaveV3Interactions.connect(accounts[0]).bridgeFunds("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", USDC, 1)).to.emit(aaveV3Interactions, "Bridged_Liquidity");
+            const ContractBalBn = await aaveV3Interactions.getBalance(USDC);
+            const ContractBal = ethers.utils.formatUnits(ContractBalBn, 6);
+            console.log(ContractBal);
+            expect(Number(ContractBal)).to.eq(0);
         });
     });
 

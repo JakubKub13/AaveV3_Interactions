@@ -84,12 +84,12 @@ contract AaveV3Interactions {
 
     function bridgeFunds(address _receiver, address _token, uint64 _dstChainId) external {
         uint256 _amount = getBalance(_token);
-        uint64 _nonce = 1;
+        uint64 _nonce = 1; // Couter usage
         uint32 _maxSlippige = 3000;
 
         IERC20(_token).approve(address(cBridge), _amount);
 
-        cBridge.send(_receiver, _token, _amount, _dstChainId, _nonce, _maxSlippige);
+        cBridge.send(_receiver, _token, _amount, _dstChainId, _nonce, _maxSlippige);  
         emit Bridged_Liquidity(_receiver, _token, _amount, _dstChainId, _nonce, _maxSlippige);
     }
 
