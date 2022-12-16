@@ -105,6 +105,7 @@ contract AaveV3Interactions {
     }
 
 // Implement this function 
+// Make it only return first value which should be addLiquidity rate and compare with real rate for an asset on chain
     function getApyFromAavePool() external view returns (uint256, uint256, uint256) {
 
     }
