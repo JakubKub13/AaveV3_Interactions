@@ -46,6 +46,12 @@ describe("Bridging liquidity from Contract on source chain to contract on destin
             const sendTx = await usdc.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT_SUPPLY);
             await sendTx.wait();
         });
-    })
 
-})
+        it("Contract should be funded with USDC", async () => {
+            const ContractBalBn = await aaveV3Interactions.getBalance(USDC);
+            const ContractBal = ethers.utils.formatUnits(ContractBalBn, 6);
+            expect(Number(ContractBal)).to.eq(1000)
+        });
+    });
+
+});
