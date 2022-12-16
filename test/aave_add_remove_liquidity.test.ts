@@ -42,7 +42,7 @@ describe("Test Aave provide and withdraw liquidity", function () {
     describe("Depositing DAI to Aave", function() {
         beforeEach(async () => {
             const aaveV3InteractionsFactory = await ethers.getContractFactory("AaveV3Interactions");
-            aaveV3Interactions = await aaveV3InteractionsFactory.deploy(AAVE_POOL_ADDRESSES_PROVIDERV3, CBridge_ADDRESS);
+            aaveV3Interactions = await aaveV3InteractionsFactory.deploy(DAI, AAVE_POOL_ADDRESSES_PROVIDERV3, CBridge_ADDRESS);
             await aaveV3Interactions.deployed();
         });
 
