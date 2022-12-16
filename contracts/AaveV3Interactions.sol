@@ -2,6 +2,7 @@
 pragma solidity 0.8.10;
 
 import {IPool} from "@aave/core-v3/contracts/interfaces/IPool.sol";
+import {IReserveInterestRateStrategy} from "@aave/core-v3/contracts/interfaces/IReserveInterestRateStrategy.sol";
 import {IPoolAddressesProvider} from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
 import {IERC20} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol";
 import {IcBridge} from "./interfaces/IcBridge.sol";
@@ -12,6 +13,7 @@ contract AaveV3Interactions {
     IPoolAddressesProvider public immutable aaveAddressesProvider;
     IPool public immutable aavePool;
     IcBridge public immutable cBridge;
+    IReserveInterestRateStrategy public defaultReserveInterestRateStrategy;
 
     IERC20 private token;
 
@@ -27,12 +29,13 @@ contract AaveV3Interactions {
         _;
     }
 
-    constructor(address _token, address _addressProvider, address _cBridge) {
+    constructor(address _token, address _addressProvider, address _cBridge, address _defaultReserveInterestRateStrategy) {
         aaveAddressesProvider = IPoolAddressesProvider(_addressProvider);
         aavePool = IPool(aaveAddressesProvider.getPool());
         cBridge = IcBridge(_cBridge);
         owner = payable(msg.sender);
         token = IERC20(_token);
+        defaultReserveInterestRateStrategy = IReserveInterestRateStrategy(_defaultReserveInterestRateStrategy);
     }
 
     function supplyLiquidity(address _tokenAddress, uint256 _amount) external {
@@ -100,6 +103,8 @@ contract AaveV3Interactions {
     function getTokenAddress() external view returns (address) {
         return address(token);
     }
+
+    
 
     receive() external payable {}    
 }
