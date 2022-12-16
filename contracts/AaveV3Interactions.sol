@@ -13,8 +13,7 @@ contract AaveV3Interactions {
     IPool public immutable aavePool;
     IcBridge public immutable cBridge;
 
-    address private immutable daiAddress = 0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1; //Optimism 
-    IERC20 private dai;
+    IERC20 private token;
 
     uint256 private constant MAX_INT =
         115792089237316195423570985008687907853269984665640564039457584007913129639935;
@@ -28,12 +27,12 @@ contract AaveV3Interactions {
         _;
     }
 
-    constructor(address _addressProvider, address _cBridge) {
+    constructor(address _token, address _addressProvider, address _cBridge) {
         aaveAddressesProvider = IPoolAddressesProvider(_addressProvider);
         aavePool = IPool(aaveAddressesProvider.getPool());
         cBridge = IcBridge(_cBridge);
         owner = payable(msg.sender);
-        dai = IERC20(daiAddress);
+        token = IERC20(_token);
     }
 
     function supplyLiquidity(address _tokenAddress, uint256 _amount) external {
@@ -76,7 +75,7 @@ contract AaveV3Interactions {
     }
     
     function checksAllowanceDAI(address _pool) external view returns (uint256) {
-        return dai.allowance(address(this), _pool);
+        return token.allowance(address(this), _pool);
     }
 
     function getBalance(address _tokenAddress) public view returns (uint256) {
@@ -84,7 +83,6 @@ contract AaveV3Interactions {
     }
 
     function bridgeFunds(address _receiver, address _token, uint64 _dstChainId) external {
-        require(_token == daiAddress, "Can send only dai token for test purposes");
         uint256 _amount = getBalance(_token);
         uint64 _nonce = 1;
         uint32 _maxSlippige = 1;
@@ -94,7 +92,7 @@ contract AaveV3Interactions {
     }
 
     function withdraw(address _tokenAddress) external onlyOwner {
-        IERC20 token = IERC20(_tokenAddress);
+        //IERC20 token = IERC20(_tokenAddress);
         token.transfer(msg.sender, token.balanceOf(address(this)));
     }
 
