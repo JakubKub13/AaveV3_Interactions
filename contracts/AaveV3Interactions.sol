@@ -91,17 +91,16 @@ contract AaveV3Interactions {
         emit Bridged_Liquidity(_receiver, _token, _amount, _dstChainId, _nonce, _maxSlippige);
     }
 
-    function withdraw(address _tokenAddress) external onlyOwner {
-        //IERC20 token = IERC20(_tokenAddress);
+    function withdraw() external onlyOwner {
         token.transfer(msg.sender, token.balanceOf(address(this)));
+    }
+
+    function getTokenAddress() external view returns (address) {
+        return address(token);
     }
 
     receive() external payable {}    
 }
 
-
-// what to refactor 
-// user will choose token used in contructor
-// add getTokenAddr => see what token is being used
 
 

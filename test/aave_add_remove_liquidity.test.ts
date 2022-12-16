@@ -141,7 +141,7 @@ describe("Test Aave provide and withdraw liquidity", function () {
             const balanceOfDaiInContractAfterWithdraw = await dai.balanceOf(aaveV3Interactions.address);
             const balanceOfDaiInContractAfterWithdrawF = ethers.utils.formatEther(balanceOfDaiInContractAfterWithdraw);
             expect(Number(balanceOfDaiInContractAfterWithdrawF)).to.be.greaterThan(Number(balanceOfDaiInContractFormatted));
-            const withdrawFromContractTx = await aaveV3Interactions.connect(accounts[0]).withdraw(dai.address);
+            const withdrawFromContractTx = await aaveV3Interactions.connect(accounts[0]).withdraw();
             await withdrawFromContractTx.wait();
             const endingBalanceOfDaiOfAcc1 = await dai.balanceOf(accounts[0].address);
             const endingBalanceOfDaiOfAcc1F = ethers.utils.formatEther(endingBalanceOfDaiOfAcc1);
