@@ -104,7 +104,10 @@ contract AaveV3Interactions {
         return address(token);
     }
 
-    
+// Implement this function 
+    function getApyFromAavePool() external view returns (uint256, uint256, uint256) {
+
+    }
 
     receive() external payable {}    
 }
