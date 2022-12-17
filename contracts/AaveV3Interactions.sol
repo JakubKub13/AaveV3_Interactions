@@ -111,20 +111,7 @@ contract AaveV3Interactions {
         uint256 RAY = 10**27;
         uint256 SECONDS_PER_YEAR = 31536000;
 
-        (
-      uint256 unbacked,
-      uint256 accruedToTreasuryScaled,
-      uint256 totalAToken,
-      uint256 totalStableDebt,
-      uint256 totalVariableDebt,
-      uint256 liquidityRate,
-      uint256 variableBorrowRate,
-      uint256 stableBorrowRate,
-      uint256 averageStableBorrowRate,
-      uint256 liquidityIndex,
-      uint256 variableBorrowIndex,
-      uint40 lastUpdateTimestamp
-    ) = 
+        ( , , , , , uint256 liquidityRate, , , , , , ) = aaveProtocolDataProvider.getReserveData(_asset);
 
     }
 
