@@ -113,6 +113,9 @@ contract AaveV3Interactions {
 
         ( , , , , , uint256 liquidityRate, , , , , , ) = aaveProtocolDataProvider.getReserveData(_asset);
 
+        uint256 depositAPR = liquidityRate / RAY;
+        uint256 depositAPY = ((1 + (depositAPR / SECONDS_PER_YEAR)) ^ SECONDS_PER_YEAR) - 1;
+        return depositAPY;
     }
 
     receive() external payable {}    
