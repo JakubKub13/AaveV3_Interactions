@@ -14,6 +14,12 @@ contract calculateAPY {
         aaveProtocolDataProvider = IPoolDataProvider(_aaveProtocolDataProvider);
     }
 
+    function calculateAPYfromPool(address _asset) external view returns (uint256) {
+
+        ( , , , , , uint256 liquidityRate, , , , , , ) = aaveProtocolDataProvider.getReserveData(_asset);
+
+    }
+
 
 
 
