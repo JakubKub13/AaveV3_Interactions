@@ -14,6 +14,8 @@ contract AaveV3Interactions {
     IPool public immutable aavePool;
     IcBridge public immutable cBridge;
     IPoolDataProvider public aaveProtocolDataProvider;
+    uint256 public constant RAY = 10**27;
+    uint256 public constant SECONDS_PER_YEAR = 31536000;
 
     IERC20 private token;
 
@@ -108,8 +110,7 @@ contract AaveV3Interactions {
 //Make it only return first value which should be addLiquidity rate and compare with real rate for an asset on chain
 //check if this function is relevant to use 
     function getApyFromAavePool(address _asset) external view returns (uint256) {
-        uint256 RAY = 10**27;
-        uint256 SECONDS_PER_YEAR = 31536000;
+        
 
     (
       ,
