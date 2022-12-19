@@ -61,6 +61,11 @@ describe("Bridging liquidity from Contract on source chain to contract on destin
             console.log(ContractBal);
             expect(Number(ContractBal)).to.eq(0);
         });
+
+        it("Should calculate APY for USDC pool", async () => {
+            const APYbn = await aaveV3Interactions.getApyFromAavePool(usdc.address);
+            console.log(`Current APY for depositing USDC into pool is ${ethers.utils.formatUnits(APYbn, 6)}`);
+        })
     });
 
 });
