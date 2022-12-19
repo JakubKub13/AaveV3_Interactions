@@ -5,6 +5,7 @@ import { ethers, network } from "hardhat";
 import { AaveV3Interactions } from "../typechain-types";
 
 const AAVE_POOL_ADDRESSES_PROVIDERV3: string = "0xa97684ead0e402dC232d5A977953DF7ECBaB3CDb"; //polygon
+const AAVE_PROTOCOL_DATA_PROVIDERV3: string = "0x69FA688f1Dc47d4B5d8029D5a35FB7a548310654";
 const CBridge_ADDRESS: string = "0x88DCDC47D2f83a99CF0000FDF667A468bB958a78"; // Polygon
 const USDC: string = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"; //polygon
 const aUSDC: string = "0x625E7708f30cA75bfd92586e17077590C60eb4cD"; // polygon
@@ -33,7 +34,7 @@ describe("Bridging liquidity from Contract on source chain to contract on destin
         await usdc.connect(usdcWhale).transfer(accounts[0].address, AMOUNT_SUPPLY);
 
         const aaveV3InteractionsFactory = await ethers.getContractFactory("AaveV3Interactions");
-        aaveV3Interactions = await aaveV3InteractionsFactory.deploy(USDC,AAVE_POOL_ADDRESSES_PROVIDERV3, CBridge_ADDRESS);
+        aaveV3Interactions = await aaveV3InteractionsFactory.deploy(USDC,AAVE_POOL_ADDRESSES_PROVIDERV3, CBridge_ADDRESS, AAVE_PROTOCOL_DATA_PROVIDERV3);
         await aaveV3Interactions.deployed();
     });
 
