@@ -2,12 +2,14 @@
 pragma solidity 0.8.10;
 
 import {IPool} from "@aave/core-v3/contracts/interfaces/IPool.sol";
+import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import {IPoolDataProvider} from "@aave/core-v3/contracts/interfaces/IPoolDataProvider.sol";
 import {IPoolAddressesProvider} from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
 import {IERC20} from "@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol";
 import {IcBridge} from "./interfaces/IcBridge.sol";
 
 contract AaveV3Interactions {
+    using SafeMath for uint256;
     address payable owner;
 
     IPoolAddressesProvider public immutable aaveAddressesProvider;
@@ -105,19 +107,22 @@ contract AaveV3Interactions {
         return address(token);
     }
 
+    function apyCalculationHelper(address _asset) internal view returns (uint256) {
+        uint256 RAY = 10**27;
+        uint256 SECONDS_PER_YEAR = 31536000;
+        (,,,,, uint256 liquidityRate,,,,,,) = aaveProtocolDataProvider.getReserveData(_asset);
+        uint256 depositAPR = liquidityRate / RAY;
+        uint256 depositAPY = ((1 + (depositAPR / SECONDS_PER_YEAR)) ** SECONDS_PER_YEAR) - 1;
+    }
+
 //Implement this function 
 //Make it only return first value which should be addLiquidity rate and compare with real rate for an asset on chain
 //check if this function is relevant to use 
     function getApyFromAavePool(address _asset) external view returns (uint256) {
-        //uint256 RAY = 10**27;
-        //uint256 SECONDS_PER_YEAR = 31536000;
-
-     (,,,,, uint256 liquidityRate,,,,,,) = aaveProtocolDataProvider.getReserveData(_asset);
-
-        //uint256 depositAPR = liquidityRate / RAY;
-        //uint256 depositAPY = ((1 + (depositAPR / SECONDS_PER_YEAR)) ^ SECONDS_PER_YEAR) - 1;
+        
+        //
     
-        return liquidityRate;
+        return depositAPR;
     }
 
     receive() external payable {}    
