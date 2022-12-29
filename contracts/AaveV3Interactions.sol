@@ -111,7 +111,6 @@ contract AaveV3Interactions {
 //Implement this function 
 //Make it only return first value which should be addLiquidity rate and compare with real rate for an asset on chain
 //check if this function is relevant to use 
-   
     function getLiquidityRate(address _asset) internal view returns (uint256) {
         (,,,,, uint256 liquidityRate,,,,,,) = aaveProtocolDataProvider.getReserveData(_asset);
         return liquidityRate;

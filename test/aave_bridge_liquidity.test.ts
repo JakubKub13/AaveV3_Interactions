@@ -64,8 +64,8 @@ describe("Bridging liquidity from Contract on source chain to contract on destin
         });
 
         it("Should calculate APY for USDC pool", async () => {
-            const APYbn = await aaveV3Interactions.getApyFromAavePool(usdc.address);
-            console.log(APYbn);
+            const liquidityRateBn = await aaveV3Interactions.getLiquidityRate(usdc.address);
+            console.log(liquidityRateBn);
         })
     });
 
