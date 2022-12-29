@@ -106,22 +106,20 @@ contract AaveV3Interactions {
     function getTokenAddress() external view returns (address) {
         return address(token);
     }
+
+    
 //Implement this function 
 //Make it only return first value which should be addLiquidity rate and compare with real rate for an asset on chain
 //check if this function is relevant to use 
    
-    function apyCalculationHelper(address _asset) internal view returns (uint256) {
-        uint256 RAY = 10**27;
-        uint256 SECONDS_PER_YEAR = 31536000;
+    function getLiquidityRate(address _asset) internal view returns (uint256) {
         (,,,,, uint256 liquidityRate,,,,,,) = aaveProtocolDataProvider.getReserveData(_asset);
-        uint256 depositAPR = liquidityRate / RAY;
-        uint256 depositAPY = ((1 + (depositAPR / SECONDS_PER_YEAR)) ** SECONDS_PER_YEAR) - 1;
+        return liquidityRate;
     }
 
 
-    }
-
-    receive() external payable {}    
+/// Function to receive ether when calling the contract
+    receive() external payable {}
 }
 
 
