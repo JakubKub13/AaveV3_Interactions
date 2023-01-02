@@ -2,6 +2,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers, network } from "hardhat";
+import { getApy } from "../scripts/apyCalculation";
 import { AaveV3Interactions } from "../typechain-types";
 
 const AAVE_POOL_ADDRESSES_PROVIDERV3: string = "0xa97684ead0e402dC232d5A977953DF7ECBaB3CDb"; //polygon
@@ -66,6 +67,18 @@ describe("Bridging liquidity from Contract on source chain to contract on destin
         it("Should calculate APY for USDC pool", async () => {
             const liquidityRateBn = await aaveV3Interactions.getLiquidityRate(usdc.address);
             console.log(liquidityRateBn);
+        });
+
+        it("Should calculate APY for USDC pool", async () => {
+            const liquidityRateBn = await aaveV3Interactions.getLiquidityRate(usdc.address);
+            const apy = getApy(liquidityRateBn)
+            const apyCalculated = apy * 100;
+            console.log(apyCalculated);
+        });
+
+        it("Should calculate the APY from smart contract", async () => {
+            const apy = await aaveV3Interactions.getApy(await aaveV3Interactions.getLiquidityRate(usdc.address))
+            console.log(apy);
         })
     });
 

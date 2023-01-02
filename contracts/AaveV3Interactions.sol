@@ -108,16 +108,29 @@ contract AaveV3Interactions {
     }
 
     
-//Implement this function 
-//Make it only return first value which should be addLiquidity rate and compare with real rate for an asset on chain
-//check if this function is relevant to use 
-    function getLiquidityRate(address _asset) internal view returns (uint256) {
+    //Implement this function 
+    //Make it only return first value which should be addLiquidity rate and compare with real rate for an asset on chain
+        //check if this function is relevant to use 
+    function getLiquidityRate(address _asset) external view returns (uint256) {
         (,,,,, uint256 liquidityRate,,,,,,) = aaveProtocolDataProvider.getReserveData(_asset);
         return liquidityRate;
     }
 
+    function getApy(uint liquidityrate) public pure returns (uint) {
+    // RAY constant is defined as 10 ** 27
+    uint RAY = 10 ** 27;
 
-/// Function to receive ether when calling the contract
+    // Calculate depositAPR
+    uint depositAPR = liquidityrate / RAY;
+    
+    // Calculate depositAPY
+    uint depositAPY = (1 + (depositAPR / 31536000)) ** 31536000 - 1;
+    
+    return depositAPY;
+}
+
+
+    /// Function to receive ether when calling the contract
     receive() external payable {}
 }
 

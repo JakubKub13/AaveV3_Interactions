@@ -93,7 +93,8 @@ describe("Test Aave provide and withdraw liquidity", function () {
         });
 
         it("Should be accumulate interest after deposit", async () => {
-            const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address, AMOUNT_SUPPLY);
+            const sendTx = await dai.connect(accounts[0]).transfer(aaveV3Interactions.address,     
+            );
             await sendTx.wait();
             const balanceOfDaiInContract = await dai.balanceOf(aaveV3Interactions.address);
             const balanceOfDaiInContractFormatted = ethers.utils.formatEther(balanceOfDaiInContract);

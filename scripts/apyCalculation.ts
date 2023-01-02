@@ -1,9 +1,4 @@
-// Creating script that will take variable from smart contract and calculate APY for given token pool
-import { ethers } from "hardhat";
-import { Contract } from "ethers";
-
-
-function getApy(liquidityrate: number) : number {
+export function getApy(liquidityrate: any) : number {
     const RAY: number = 10 ** 27;
 
     const depositAPR: number = liquidityrate / RAY;
